@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iterator>
 #include <vector>
+#include <cctype>
 
 typedef std::map<std::string,int>  mapT;
 
@@ -14,72 +15,50 @@ struct statistics
   std::string word;
 };
 
-std::string prepare(const std::string& word)
+void prepare(std::string& word)
 {
-  std::string result = "";
-  std::string punct = "!@#$%^&*()_-+=\"'|?/\\<>,.;:[]{}“”—…’‘123456789»«";
-  result.resize(word.size());
-  std::transform(word.begin(), word.end(), result.begin(), ::tolower);
-  long start = 0, end = 0, len = result.length();
-  for (start = 0; start < len && punct.find(result[start]) != std::string::npos; start++);
-    for (end = len - 1; end >= 0 && punct.find(result[end]) != std::string::npos; end--);
-      if (end < start)
-        result = "";
-      else
-        result = result.substr(start, end - start + 1);
-  return result;
+  std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+  word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
 }
 
 void map_create(mapT& words)
 {
-//  std::cout << "1 \n";
+  std::cout << "Map_create starting" << "\n";
   std::ifstream input("input.txt");
-//  mapT words;
-//  std::cout << "2 \n";
 
   if (input.is_open())
   {
- //   std::cout << "3 \n";
     std::string word;    
     while(!input.eof())
     {
- //     std::cout << "4 \n";
       input >> word;		
-      word = prepare(word);
-      std::cout << word << "\n";
-//      std::cout << "5 \n";
+      prepare(word);
 
       if (!word.empty())
-      {
         words[word]++;
-        std::cout << words[word] << "\n";
-      }
       word = "";
     }
   }
   
   std::cout << "Map complete" << "\n";
-
   input.close();
-  
   std::cout << "Input_close complete" << "\n";
-
-//  return words;
-  } 
-
-std::vector<statistics> vector_create(mapT words)
-{
-  int i = 0;
-  std::vector<statistics> vwords(10);
-  
-  for (mapT::iterator it = words.begin(); it != words.end(); it++)
-  {
-    vwords[i].word = (*it).first;
-    vwords[i].count = (*it).second;
-    i++;
   }
 
-  return vwords;
+void vector_create(mapT words, std::vector<statistics>& vwords)
+{
+  std::cout << "Vector_create starting" << "\n";
+  mapT::iterator it;
+  statistics stat;
+  
+  for (it = words.begin(); it != words.end(); it++)
+  {
+    stat.word = (*it).first;
+    stat.count = (*it).second;
+    vwords.push_back(stat);
+  }
+
+  std::cout << "Vector_create complete" << "\n";
 }
 
 bool comparator(const statistics& lhs, const statistics& rhs)
@@ -90,7 +69,7 @@ bool comparator(const statistics& lhs, const statistics& rhs)
 int data_input()
 {
   int words_amount = 0;
-  std::cout << "Input the amount of words to output" << std::endl;
+  std::cout << "Input the amount of words to output \n" << std::endl;
   std::cin >> words_amount;
 
   return words_amount;
@@ -102,14 +81,14 @@ int main()
   int words_amount = data_input();
   mapT words;
   map_create(words);
-  std::cout << "Successfully map_create";
-  std::vector<statistics> vwords = vector_create(words);
+  std::vector<statistics> vwords;
+  vector_create(words, vwords);
   
   std::sort(vwords.begin(), vwords.end(), comparator); 
  
-  int num = std::min(numberOfWords, vector.size());
+  int num = std::min(words_amount, (int) vwords.size());
   for (int i = 0; i < num; i++)
-    output << vwords[i].count << " " << vwords[i].word << std::endl;
+    output << "Place: " << i+1 << " " << vwords[i].count << " " << vwords[i].word << std::endl;
 
   output.close(); 
   std::cout << "Successfully completed"<< "\n";     
