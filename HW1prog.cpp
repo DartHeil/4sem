@@ -17,7 +17,7 @@ struct statistics
 std::string prepare(const std::string& word)
 {
   std::string result = "";
-  std::string punct = "!@#$%^&*()_-+=\"'|?/\\<>,.;:[]{}“”—…’‘123456789";
+  std::string punct = "!@#$%^&*()_-+=\"'|?/\\<>,.;:[]{}“”—…’‘123456789»«";
   result.resize(word.size());
   std::transform(word.begin(), word.end(), result.begin(), ::tolower);
   long start = 0, end = 0, len = result.length();
@@ -30,28 +30,42 @@ std::string prepare(const std::string& word)
   return result;
 }
 
-mapT map_create()
+void map_create(mapT& words)
 {
-  std::ifstream file("text.txt");
-  mapT words;
+//  std::cout << "1 \n";
+  std::ifstream input("input.txt");
+//  mapT words;
+//  std::cout << "2 \n";
 
-  if (file.is_open())
+  if (input.is_open())
   {
+ //   std::cout << "3 \n";
     std::string word;    
-    while(!file.eof())
+    while(!input.eof())
     {
-      file >> word;		
+ //     std::cout << "4 \n";
+      input >> word;		
       word = prepare(word);
+      std::cout << word << "\n";
+//      std::cout << "5 \n";
 
       if (!word.empty())
+      {
         words[word]++;
+        std::cout << words[word] << "\n";
+      }
       word = "";
     }
   }
   
-  file.close();
-  return words;
-} 
+  std::cout << "Map complete" << "\n";
+
+  input.close();
+  
+  std::cout << "Input_close complete" << "\n";
+
+//  return words;
+  } 
 
 std::vector<statistics> vector_create(mapT words)
 {
@@ -70,7 +84,7 @@ std::vector<statistics> vector_create(mapT words)
 
 bool comparator(const statistics& lhs, const statistics& rhs)
 {
-  return rhs.count < lhs.count ? true : false;
+  return rhs.count < lhs.count;
 }
 
 int data_input()
@@ -86,12 +100,14 @@ int main()
 {
   std::ofstream output("output.txt");
   int words_amount = data_input();
-  mapT words = map_create();
+  mapT words;
+  map_create(words);
+  std::cout << "Successfully map_create";
   std::vector<statistics> vwords = vector_create(words);
   
   std::sort(vwords.begin(), vwords.end(), comparator); 
  
-  int num = (words_amount < vwords.size()) ? words_amount : vwords.size();
+  int num = std::min(numberOfWords, vector.size());
   for (int i = 0; i < num; i++)
     output << vwords[i].count << " " << vwords[i].word << std::endl;
 
