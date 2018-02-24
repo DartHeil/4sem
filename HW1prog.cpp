@@ -42,15 +42,10 @@ mapT map_create()
     {
       file >> word;		
       word = prepare(word);
-      std::cout << word << "\n";
-//    mapT::iterator  it= words.find(word);
-//    if( it != my_map.end() )
+
       if (!word.empty())
         words[word]++;
       word = "";
-//      it->second++;
-//    else
-//      words.insert( pair<char,int>(word,1) );
     }
   }
   
@@ -62,19 +57,11 @@ std::vector<statistics> vector_create(mapT words)
 {
   int i = 0;
   std::vector<statistics> vwords(10);
-  statistics wordstat;
   
   for (mapT::iterator it = words.begin(); it != words.end(); it++)
   {
     vwords[i].word = (*it).first;
     vwords[i].count = (*it).second;
-/*    wordstat.word = (*it).first;
-    std::cout << wordstat.word << "\n";
-    wordstat.count = (*it).second;
-    std::cout << wordstat.count << "\n";
-    vwords.push_back(wordstat); */
-    std::cout << vwords[i].word << "\n";
-    std::cout << vwords[i].count << "\n";
     i++;
   }
 
@@ -83,7 +70,7 @@ std::vector<statistics> vector_create(mapT words)
 
 bool comparator(const statistics& lhs, const statistics& rhs)
 {
-  return lhs.count < rhs.count ? true : false;
+  return rhs.count < lhs.count ? true : false;
 }
 
 int data_input()
@@ -102,23 +89,13 @@ int main()
   mapT words = map_create();
   std::vector<statistics> vwords = vector_create(words);
   
-  std::cout << vwords[0].word << "1" << "\n";
-  std::cout << vwords[0].count << "\n";  
-
-//  std::ostream_iterator<statistics> out(std::cout);
   std::sort(vwords.begin(), vwords.end(), comparator); 
-  //std::copy(vwords.begin(), vwords.end(), out); 
-
-  std::cout << vwords[0].word << "2" << "\n";
-  std::cout << vwords[0].count << "\n";
-
+ 
   int num = (words_amount < vwords.size()) ? words_amount : vwords.size();
   for (int i = 0; i < num; i++)
     output << vwords[i].count << " " << vwords[i].word << std::endl;
 
-  output.close();      
+  output.close(); 
+  std::cout << "Successfully completed"<< "\n";     
   return 0;
 }
-
- 
- 
