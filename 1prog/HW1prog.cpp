@@ -7,6 +7,10 @@
 #include <vector>
 #include <cctype>
 
+/*
+в с++ можно
+using mapT = std::map<std::string,int>;
+*/
 typedef std::map<std::string,int>  mapT;
 
 struct statistics
@@ -43,14 +47,27 @@ void map_create(mapT& words)
   std::cout << "Map complete" << "\n";
   input.close();
   std::cout << "Input_close complete" << "\n";
-  }
+}
 
+/*
+fixit:
+лучше передать константную ссылку на words
+*/
 void vector_create(mapT words, std::vector<statistics>& vwords)
 {
   std::cout << "Vector_create starting" << "\n";
   mapT::iterator it;
   statistics stat;
   
+  /*
+  вам точто 
+  for (const auto& pair : words)
+  {
+    stat.word = pair.first
+    ...
+  }
+  меньше нравится?)
+  */
   for (it = words.begin(); it != words.end(); it++)
   {
     stat.word = (*it).first;
