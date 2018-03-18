@@ -9,7 +9,7 @@
 
 /*
 в с++ можно
-using mapT = std::map<std::string,int>;
+using mapT = std::map<std::string,int>; Ok
 */
 typedef std::map<std::string,int>  mapT;
 
@@ -25,7 +25,7 @@ void prepare(std::string& word)
   word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
 }
 
-void map_create(mapT& words)
+void map_create(const mapT& words)
 {
   std::cout << "Map_create starting" << "\n";
   std::ifstream input("input.txt");
@@ -51,7 +51,7 @@ void map_create(mapT& words)
 
 /*
 fixit:
-лучше передать константную ссылку на words
+лучше передать константную ссылку на words DONE
 */
 void vector_create(mapT words, std::vector<statistics>& vwords)
 {
@@ -63,7 +63,7 @@ void vector_create(mapT words, std::vector<statistics>& vwords)
   вам точто 
   for (const auto& pair : words)
   {
-    stat.word = pair.first
+    stat.word = pair.first  Меньше)
     ...
   }
   меньше нравится?)
