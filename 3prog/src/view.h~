@@ -8,7 +8,7 @@ View get_xy_for_view(float x, float y)
 {
 	float crit_x = x;
 	float crit_y = y;
-	if (x < 220) crit_x = 220; 
+	if (x < 215) crit_x = 215; 
 	if (y < 240) crit_y = 240; 
 	if (y > 554) crit_y = 554;
 

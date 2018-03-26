@@ -98,7 +98,7 @@ void essence::update(float time)
 	speed = 0;
 	
 	look.setPosition(x, y);
-} 	
+} */	
 
 float essence::get_x()
 {

@@ -39,7 +39,10 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if(event.type == Event::Closed)
+			{
 				window.close();
+				//return 0;
+			}
 
 			if(Keyboard::isKeyPressed(Keyboard::Escape)) 
 			{ 					

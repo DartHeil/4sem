@@ -19,7 +19,7 @@ map::map(String F, String* mapPlan)
 
 int map::print(RenderWindow& window) 
 {
-	//std::cout << "Starting to print map..." << "\n";	
+	std::cout << "Starting to print map..." << "\n";	
 
 	for (int i = 0; i < HEIGHT_MAP; i++)
 	for (int j = 0; j < WIDTH_MAP; j++)

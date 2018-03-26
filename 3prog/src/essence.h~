@@ -31,7 +31,7 @@ public:
 	float get_h();
 	float get_w();
 
-	void update(float time);
+	//void update(float time);
 	
 	void interactionWithMap(map& mapa);
 
