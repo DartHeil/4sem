@@ -4,11 +4,12 @@
 class Vector3
 {
 private:
-        
+        // fixit: а как снаружи узнать компоненты вектора, раз они приватные
         double x;
         double y;
         double z;
 public:
+	// fixit: вынесите реализацию в cpp файл
 	Vector3(float x, float y, float z): x(x), y(y), z(z) {};
 	Vector3(): x(0), y(0), z(0) {};
 
